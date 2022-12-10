@@ -15,6 +15,9 @@ y = dataset["dcsub001"].values
 xx = np.array(x)
 yy = np.array(y)
 
+xx = xx.array.flatten()
+yy = xx.array.flatten()
+
 def sequesnceGenerator(arr,n):
     i=0
     arr1 = []
@@ -29,7 +32,7 @@ def sequesnceGenerator(arr,n):
     #arr1.append(temp)
     return arr1
 
-X=np.array(sequesnceGenerator(xx,5))
+X=np.array(sequesnceGenerator(xx,100))
 
 #arr=np.array([[514,301,438,592,559]])
 arr=np.array([[372,511,552,359,496,582,550,490]])
@@ -48,12 +51,12 @@ for i in range(len(result)):
 
 	time.append(i)
 
-# count=90
+count = 448300
 
-# xx = np.delete(xx, range(count,4344))
-# yy = np.delete(yy, range(count,4344))
-# time=np.delete(time, range(count,4336))
-# result=np.delete(result, range(count,4336))
+# # xx = np.delete(xx, range(count,4344))
+# yy = np.delete(yy, range(count,448325))
+# time = np.delete(time, range(count,448325))
+# # result=np.delete(result, range(count,4336))
 
 print(len(time))
 print(len(xx))
@@ -62,7 +65,7 @@ print(len(result))
 
 #plt.plot(time,xx ,label = "mains reading")
 plt.plot(time,result ,label = "model predicted value of refrigerator")
-#plt.plot(time,yy ,label = "actual value of refrigerator")
+plt.plot(time,yy,label = "actual value of refrigerator")
 plt.legend()
 plt.show()
 
