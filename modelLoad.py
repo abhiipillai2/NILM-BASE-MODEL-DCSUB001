@@ -6,17 +6,28 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 
-dataset = pd.read_csv("NILM_001.csv")
-print(dataset.head())
+#reading and assigning index as timestamp
+datasetDcmain001 = pd.read_csv("dcmain001.csv",usecols=[2,3], names=['power', 'time_stamp'] , parse_dates=["time_stamp"], index_col="time_stamp")
 
-x = dataset["dcmain001"].values
-y = dataset["dcsub001"].values
+datasetDcmain001 = datasetDcmain001.resample('8s').mean()
+
+#reading and assigning index as timestamp
+datasetDcsub001 = pd.read_csv("dcsub001.csv",usecols=[2,3], names=['power', 'time_stamp'] , parse_dates=["time_stamp"], index_col="time_stamp")
+
+#resampling the data set
+datasetDcsub001 = datasetDcsub001.resample('8s').mean()
+
+mainDf = pd.merge(datasetDcmain001, datasetDcsub001, on="time_stamp")
+mainDf = mainDf.dropna()
+#mainDf = datasetDcmain001.merge(datasetDcsub001,how = 'inner',left_index = True, right_index =True)
+
+x = mainDf["power_x"].values
+y = mainDf["power_y"].values
 
 xx = np.array(x)
 yy = np.array(y)
 
-xx = xx.array.flatten()
-yy = xx.array.flatten()
+seq_val = 10
 
 def sequesnceGenerator(arr,n):
     i=0
@@ -32,10 +43,7 @@ def sequesnceGenerator(arr,n):
     #arr1.append(temp)
     return arr1
 
-X=np.array(sequesnceGenerator(xx,100))
-
-#arr=np.array([[514,301,438,592,559]])
-arr=np.array([[372,511,552,359,496,582,550,490]])
+X=np.array(sequesnceGenerator(xx,seq_val))
 
 #model_name = "testModelTelivision.h5"
 model_name = "NILM_BASE_MODEL.h5"
@@ -51,21 +59,19 @@ for i in range(len(result)):
 
 	time.append(i)
 
-count = 448300
+count = 500
 
 # # xx = np.delete(xx, range(count,4344))
-# yy = np.delete(yy, range(count,448325))
-# time = np.delete(time, range(count,448325))
-# # result=np.delete(result, range(count,4336))
+yy = np.delete(yy, range(count,246423))
+time = np.delete(time, range(count,246420))
+result=np.delete(result, range(count,246420))
 
-print(len(time))
-print(len(xx))
 print(len(yy))
 print(len(result))
 
 #plt.plot(time,xx ,label = "mains reading")
-plt.plot(time,result ,label = "model predicted value of refrigerator")
 plt.plot(time,yy,label = "actual value of refrigerator")
+plt.plot(time,result ,label = "model predicted value of refrigerator")
 plt.legend()
 plt.show()
 
