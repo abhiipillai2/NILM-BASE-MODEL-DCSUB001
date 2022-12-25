@@ -49,20 +49,37 @@ Y_TRAIN=np.array(sequesnceGenerator(y_train,100))
 X_TEST=np.array(sequesnceGenerator(x_test,100))
 Y_TEST=np.array(sequesnceGenerator(y_test,100))
 
+# cnn = models.Sequential([
+#     layers.Conv1D(filters=64, kernel_size=1, activation='relu',input_shape=(100,1)),
+#     layers.Dropout(0.5),
+
+#     layers.Conv1D(filters=32, kernel_size=1, activation='relu'),
+#     layers.Conv1D(filters=16, kernel_size=1, activation='relu'),
+#     layers.MaxPooling1D(pool_size=1, name="MaxPooling1D"),
+
+#     layers.Flatten(),
+#     layers.Dense(32, activation='relu'),
+#     layers.Dense(32, activation='relu'),
+#     layers.Dense(32, activation='relu'),
+#     layers.Dense(100, activation='linear')
+# ])
+
 cnn = models.Sequential([
-    layers.Conv1D(filters=64, kernel_size=1, activation='relu',input_shape=(100,1)),
+    layers.Conv1D(filters=34, kernel_size=10, activation='relu',input_shape=(100,1)),
     layers.Dropout(0.5),
 
-    layers.Conv1D(filters=32, kernel_size=1, activation='relu'),
-    layers.Conv1D(filters=16, kernel_size=1, activation='relu'),
+    layers.Conv1D(filters=30, kernel_size=8, activation='relu'),
+    layers.Conv1D(filters=40, kernel_size=6, activation='relu'),
+    layers.Conv1D(filters=50, kernel_size=5, activation='relu'),
+    layers.Conv1D(filters=50, kernel_size=5, activation='relu'),
+    layers.Conv1D(filters=50, kernel_size=5, activation='relu'),
     layers.MaxPooling1D(pool_size=1, name="MaxPooling1D"),
 
     layers.Flatten(),
-    layers.Dense(32, activation='relu'),
-    layers.Dense(32, activation='relu'),
-    layers.Dense(32, activation='relu'),
-    layers.Dense(100, activation='linear')
+    layers.Dense(1024, activation='relu'),
+    layers.Dense(100, activation='sigmoid')
 ])
+
 
 optimizer = tf.keras.optimizers.RMSprop(0.001)
 

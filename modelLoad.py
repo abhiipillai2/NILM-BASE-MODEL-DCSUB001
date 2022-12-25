@@ -7,15 +7,15 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 #reading and assigning index as timestamp
-datasetDcmain001 = pd.read_csv("dcmain001.csv",usecols=[2,3], names=['power', 'time_stamp'] , parse_dates=["time_stamp"], index_col="time_stamp")
+datasetDcmain001 = pd.read_csv("dcsub001.csv",usecols=[2,3], names=['power', 'time_stamp'] , parse_dates=["time_stamp"], index_col="time_stamp")
 
-datasetDcmain001 = datasetDcmain001.resample('8s').mean()
+datasetDcmain001 = datasetDcmain001.resample('10s').mean()
 
 #reading and assigning index as timestamp
 datasetDcsub001 = pd.read_csv("dcsub001.csv",usecols=[2,3], names=['power', 'time_stamp'] , parse_dates=["time_stamp"], index_col="time_stamp")
 
 #resampling the data set
-datasetDcsub001 = datasetDcsub001.resample('8s').mean()
+datasetDcsub001 = datasetDcsub001.resample('10s').mean()
 
 mainDf = pd.merge(datasetDcmain001, datasetDcsub001, on="time_stamp")
 mainDf = mainDf.dropna()
@@ -27,7 +27,7 @@ y = mainDf["power_y"].values
 xx = np.array(x)
 yy = np.array(y)
 
-seq_val = 10
+seq_val = 100
 
 def sequesnceGenerator(arr,n):
     i=0
@@ -44,6 +44,7 @@ def sequesnceGenerator(arr,n):
     return arr1
 
 X=np.array(sequesnceGenerator(xx,seq_val))
+Y=np.array(sequesnceGenerator(yy,seq_val))
 
 #model_name = "testModelTelivision.h5"
 model_name = "NILM_BASE_MODEL.h5"
@@ -59,19 +60,20 @@ for i in range(len(result)):
 
 	time.append(i)
 
-count = 500
+count =3000
 
-# # xx = np.delete(xx, range(count,4344))
-yy = np.delete(yy, range(count,246423))
-time = np.delete(time, range(count,246420))
-result=np.delete(result, range(count,246420))
-
-print(len(yy))
+print(len(Y))
+print(len(X))
 print(len(result))
+print(len(time))
+
+# # # xx = np.delete(xx, range(count,212300))
+Y = np.delete(Y, range(count,212300))
+time = np.delete(time, range(count,212300))
+result=np.delete(result, range(count,212300))
 
 #plt.plot(time,xx ,label = "mains reading")
-plt.plot(time,yy,label = "actual value of refrigerator")
+plt.plot(time,Y,label = "actual value of refrigerator")
 plt.plot(time,result ,label = "model predicted value of refrigerator")
 plt.legend()
 plt.show()
-
