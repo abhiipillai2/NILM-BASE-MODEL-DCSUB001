@@ -60,7 +60,7 @@ for i in range(len(result)):
 
 	time.append(i)
 
-count =3000
+count =500
 
 print(len(Y))
 print(len(X))
