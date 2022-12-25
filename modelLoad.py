@@ -67,10 +67,14 @@ print(len(X))
 print(len(result))
 print(len(time))
 
+c_y = (len(Y) * seq_val)
+c_result = len(result)
+c_time = len(time)
+
 # # # xx = np.delete(xx, range(count,212300))
-Y = np.delete(Y, range(count,212300))
-time = np.delete(time, range(count,212300))
-result=np.delete(result, range(count,212300))
+Y = np.delete(Y, range(count,c_y))
+time = np.delete(time, range(count,c_time))
+result=np.delete(result, range(count,c_result))
 
 #plt.plot(time,xx ,label = "mains reading")
 plt.plot(time,Y,label = "actual value of refrigerator")
